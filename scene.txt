@@ -1,0 +1,117 @@
+import setup_path
+import airsim
+import time
+import numpy as np
+import os
+import tempfile
+import pprint
+import cv2
+
+
+# Airsim이랑 연결
+client = airsim.MultirotorClient()
+client.confirmConnection()
+client.enableApiControl(True)
+
+#드론 이륙시키는 명령
+client.takeoffAsync().join()
+
+#드론 하단부 촬영 API
+def capture_bottom_image(client,position, image_name):
+    client.moveToPositionAsync(position[0], position[1], position[2], 5).join()
+    hovering(client)
+
+    # 카메라 이미지 요청
+    responses = client.simGetImages([
+        airsim.ImageRequest(3, airsim.ImageType.Scene, False, False)
+    ])
+
+    response = responses[0]
+
+    img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) 
+
+# reshape array to 4 channel imaged array H X W X 4
+    img_rgb = img1d.reshape(response.height, response.width, 3)
+
+# original image is fliped vertically
+    img_rgb = np.flipud(img_rgb)
+
+# 사진 파일은 png 파일로 저장
+   
+    airsim.write_png(os.path.normpath(image_name + '.png'), img_rgb) 
+    print("Image saved to bottom_view.png")
+    client.hoverAsync().join()
+
+#드론이 지정한 위치에 도달했을 때 사진을 바로 찍는 것이 아니라 동일한 자세로 만들고 드론이 찍는 환경의 랜더링을 기다리기 위해서 드론을 부유시키는 함수
+def hovering(client):
+    client.hoverAsync().join()
+    time.sleep(20)
+
+#x축의 +방향으로 이동하는 함수
+def go_front(center, front_length, altitude, step_size):
+    x, y = center
+    front = []
+    
+    for i in range(0, front_length, step_size):
+        front.append((x+front_length, y, altitude))
+        x = x + front_length
+
+    center = x, y
+    return front
+
+#y축의 -방향으로 이동하는 함수
+def go_side(center, side_length, altitude, step_size):
+    x, y = center
+    side = []
+    
+    side.append((x, y - side_length, altitude))
+    y = y - side_length
+
+    center = x, y
+    return side
+
+#x축의 -방향으로 이동하는 함수
+def go_back(center, back_length, altitude, step_size):
+    x, y = center
+    back = []
+    
+    for i in range(0, back_length, step_size):
+        back.append((x - back_length, y, altitude))
+        x = x - back_length
+
+    center = x, y
+    return back
+
+# 중심 좌표
+center = (0, 0)
+altitude = -150  # 고도 (음수 값이 위로 올라가는 방향)
+
+side_length = 200  # 이동간격
+step_size = 200     # 각 경로 간 이동 간격
+num_squares = 10   # 반복 횟수
+
+#초기 위치에서 지정한 z축까지 상승
+client.moveToPositionAsync(0,0,altitude, 10).join()
+
+for n in range(1, num_squares + 1):
+    for _ in range(num_squares + 1):
+        front = go_front(center, side_length, altitude, step_size)
+        for i, position in enumerate(front):
+            image_name = f"front_{n}_{i+1}_{position[0]}_{position[1]}_{position[2]}"
+            capture_bottom_image(client, position, image_name)
+        center = front[-1][0:2]
+
+    side = go_side(center, side_length,altitude, step_size)
+    for i, position in enumerate(side):
+        image_name = f"side_{n}_{i+1}_{position[0]}_{position[1]}_{position[2]}"
+        capture_bottom_image(client, position, image_name)
+        center = side[-1][0:2]
+
+    for _ in range(num_squares + 1):
+        back = go_back(center, side_length, altitude, step_size)   
+        for i, position in enumerate(back):
+            image_name = f"back_{n}_{i+1}_{position[0]}_{position[1]}_{position[2]}"
+            capture_bottom_image(client, position, image_name)    
+        center = back[-1][0:2]
+
+client.hoverAsync().join()
