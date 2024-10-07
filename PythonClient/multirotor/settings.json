@@ -1,0 +1,34 @@
+{
+  "SeeDocsAt": "https://github.com/Microsoft/AirSim/blob/main/docs/settings.md",
+  "SettingsVersion": 1.2,
+  "CameraDefaults": {
+    "CaptureSettings": [
+      {
+        "ImageType": 0,  
+        "Width": 1080,
+        "Height": 1080,
+        "FOV_Degrees": 100,
+        "AutoExposureSpeed": 100,
+        "MotionBlurAmount": 0
+      },
+      {
+        "ImageType": 5, 
+        "Width": 1080,
+        "Height": 1080,
+        "FOV_Degrees": 100,
+        "AutoExposureSpeed": 100,
+        "MotionBlurAmount": 0
+      }
+    ]
+  },
+  "SegmentationSettings": {
+    "InitMethod": "CommonObjectsRandomIDs",
+    "MeshNamingMethod": "OwnerName",
+    "OverrideExisting": false
+  },
+  "OriginGeopoint": {
+    "Latitude": 37.669936,
+    "Longitude": 126.745783,
+    "Altitude": 100
+  }
+}
