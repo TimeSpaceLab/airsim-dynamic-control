@@ -4,16 +4,16 @@
   "CameraDefaults": {
     "CaptureSettings": [
       {
-        "ImageType": 0,  
-        "Width": 1080,
+        "ImageType": 0,
+        "Width": 1920,
         "Height": 1080,
         "FOV_Degrees": 100,
         "AutoExposureSpeed": 100,
         "MotionBlurAmount": 0
       },
       {
-        "ImageType": 5, 
-        "Width": 1080,
+        "ImageType": 5,
+        "Width": 1920,
         "Height": 1080,
         "FOV_Degrees": 100,
         "AutoExposureSpeed": 100,
@@ -30,5 +30,42 @@
     "Latitude": 37.669936,
     "Longitude": 126.745783,
     "Altitude": 100
+  },
+  "Recording": {
+    "RecordOnMove": true,
+    "RecordInterval": 1.0,
+    "Enabled": true,
+    "Cameras": [
+      {
+        "CameraName": "3",  
+        "ImageType": 0,
+        "PixelsAsFloat": false,
+        "Compress": false
+      },
+      {
+        "CameraName": "4",  
+        "ImageType": 5,
+        "PixelsAsFloat": false,
+        "Compress": false
+      }
+    ],
+    "RecordPaths": [
+      {
+        "CameraName": "3",
+        "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera3_scene"
+      },
+      {
+        "CameraName": "3",
+        "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera3_seg"
+      },
+      {
+        "CameraName": "4",
+        "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera4_scene"
+      },
+      {
+        "CameraName": "4",
+        "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera4_seg"
+      }
+    ]
   }
 }
