@@ -27,8 +27,8 @@
     "OverrideExisting": false
   },
   "OriginGeopoint": {
-    "Latitude": 37.669936,
-    "Longitude": 126.745783,
+    "Latitude": 37.531368,
+    "Longitude": 126.913900,
     "Altitude": 100
   },
   "Recording": {
@@ -43,15 +43,15 @@
         "Compress": false
       },
       {
-        "CameraName": "4",  
+        "CameraName": "3",  
         "ImageType": 5,
         "PixelsAsFloat": false,
         "Compress": false
-      }
+      }	
     ],
     "RecordPaths": [
       {
-        "CameraName": "3",
+        "CameraName": "0",
         "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera3_scene"
       },
       {
@@ -59,11 +59,11 @@
         "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera3_seg"
       },
       {
-        "CameraName": "4",
+        "CameraName": "0",
         "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera4_scene"
       },
       {
-        "CameraName": "4",
+        "CameraName": "3",
         "Path": "C:/Users/kj746/AirSim/PythonClient/multirotor/flight_mode_data/camera4_seg"
       }
     ]
