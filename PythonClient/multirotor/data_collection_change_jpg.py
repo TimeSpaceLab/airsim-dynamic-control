@@ -1,3 +1,5 @@
+#AirSim 시뮬레이션에서 출력한 ppm파일을 jpg파일로 변환하는 API 코드
+
 import os
 from PIL import Image
 
